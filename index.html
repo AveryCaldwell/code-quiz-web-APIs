@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Quiz</title>
+    <link rel="stylesheet" href="Assets/style.css">
+</head>
+
+<body>
+    <!-- Nav bar- Highscore list link and timer shown  -->
+    <nav>
+        <button id="highScoreBtn">View Highscores</button>
+        <div id="interval">Timer: <span id="count">75</span></div>
+        <!-- <div id="timerText">Timer: <span id="timeLeft"></span></div> -->
+    </nav>
+
+    <!-- Start screen  -->
+    <div class="quizContainer">
+        <section id="homepage">
+            <h1>Coding Quiz Challenge</h1>
+            <p>Try to answer the following code-related questions within the time limit.
+                <br />
+                Keep in mind that incorrect
+                answers will
+                penalize your score/time by ten seconds!
+            </p>
+            <button type=button id="startBtn">Start Quiz</button>
+        </section>
+
+
+        <!-- Quiz starts  -->
+        <!-- Question/page syntax -->
+        <section id="quiz">
+            <h2 id="quizQuestion"></h2>
+            <button id="answerBtn0" class="optionBtn"></button><br>
+            <button id="answerBtn1" class="optionBtn"></button><br>
+            <button id="answerBtn2" class="optionBtn"></button><br>
+            <button id="answerBtn3" class="optionBtn"></button>
+            <div class="result"></div>
+        </section>
+
+        <!-- Final page 6 -->
+        <section id="resultsPage">
+            <h1>All done!</h1>
+            <p>Your final score is <span id="finalScore"></span></p>
+
+            <p>Enter initials
+                <input type="text" id="initialsInput"></input>
+                <button type=button id="initialsSubmit">Submit</button>
+            </p>
+
+        </section>
+
+        <section id="scoresPage">
+            <h1>Highscores</h1>
+            <ol id="scoresList"></ol>
+            <div id="buttonContainer">
+                <button type="button" class="backBtn" id="backBtn">Go Back</button>
+                <button type="button" id="clearBtn">Clear Highscores</button>
+            </div>
+        </section>
+
+
+
+    </div>
+    <!-- Timer div  -->
+    </div>
+    <!-- quizContainer div -->
+
+</body>
+<script src="./Assets/script.js"></script>
+
+</html>
