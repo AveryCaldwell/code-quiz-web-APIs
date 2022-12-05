@@ -12,7 +12,7 @@
 - [Author](#author)
 - [Acknowledgments](#acknowledgments)
 ​
-**Note: Delete this note and update the table of contents based on what sections you keep.**
+
 ​
 ## Overview
 ​
@@ -78,7 +78,7 @@ Acceptance Criteria:
             <p id="result"></p>
         </section>
 ```
-- ​I am proud of this code because I was able to store all of the questions and answers inside the JavaScript file.
+- ​I am proud of this code because I was able to store all of the questions, options, and answers inside the JavaScript file instead of the HTML.
 ​
 ```js
 const hideSections = function () {
