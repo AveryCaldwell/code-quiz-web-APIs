@@ -20,37 +20,37 @@ let questionObj = {
   3: {
     question: "Arrays in JavaSCript can be used to store ____.",
     answerArray: [
-      "1. quotes",
-      "2. curly brackets",
-      "3. parentheses",
-      "4. square brackets",
+      "1. numbers and strings",
+      "2. other arrays",
+      "3. booleans",
+      "4. all of the above",
     ],
-    correctAnswer: "3. parentheses",
-    correctAnswerIndex: 2,
+    correctAnswer: "4. all of the above",
+    correctAnswerIndex: 3,
   },
   4: {
     question:
       "String values must be enclosed within ____ when being assigned to variables.",
     answerArray: [
-      "1. quotes",
+      "1. commas",
       "2. curly brackets",
-      "3. parentheses",
-      "4. square brackets",
+      "3. quotes",
+      "4. parentheses",
     ],
-    correctAnswer: "3. parentheses",
+    correctAnswer: "3. quotes",
     correctAnswerIndex: 2,
   },
   5: {
     question:
       "A very useful tool used during development and debugging for printing content to the debugger is:",
     answerArray: [
-      "1. quotes",
-      "2. curly brackets",
-      "3. parentheses",
-      "4. square brackets",
+      "1. JavaScript",
+      "2. terminal/bash",
+      "3. for loops ",
+      "4. console log",
     ],
-    correctAnswer: "3. parentheses",
-    correctAnswerIndex: 2,
+    correctAnswer: "4. console log",
+    correctAnswerIndex: 3,
   },
 };
 
@@ -92,7 +92,16 @@ const highScoreBtn = document.getElementById("highScoreBtn");
 const scoresPage = document.getElementById("scoresPage");
 const clearBtn = document.getElementById("clearBtn");
 const scoresList = document.getElementById("scoresList");
-
+const answerResult = document.getElementById("result");
+initialsInput.addEventListener("keypress", function (event) {
+  event.preventDefault();
+  if (/[a-z]/i.test(event.key) && initialsInput.value.length < 4) {
+    initialsInput.value += event.key.toUpperCase();
+  }
+});
+// A max of 4 letters can be submitted and a minimum of two have to be submitted
+initialsInput.maxLength = 4;
+initialsInput.minLength = 2;
 // Hides sections until active
 const hideSections = function () {
   homepage.style.display = "none";
@@ -116,7 +125,7 @@ function activeSection(section) {
     scoresPage.style.display = "block";
   }
 }
-// On click event that sets section to visible and shows quesiton 1
+// On click event that sets section to visible and shows question 1
 quizStart.addEventListener("click", function () {
   currentQuestion = 1;
   activeSection("quiz");
@@ -129,13 +138,23 @@ let currentQuestion = 1;
 
 // Highscore array
 let highScore;
-// If localStorage is not undefined, sets highscore to the JSON parse of the string stored in local storage; otherwise it sets highscore to an empty array; parse` converts the string into an object
+// If localStorage is not undefined, sets highscore to the JSON parse of the string stored in local storage
 if (localStorage.getItem("highScore") != undefined) {
   highScore = JSON.parse(localStorage.getItem("highScore"));
+  //  Otherwise it sets highscore to an empty array; parse` converts the string into an object
 } else {
   highScore = [];
 }
 
+// This function creates a new list item in the highscoreArray and displays the scores/initials on the scoresPage
+const populateHighScoreList = function () {
+  scoresList.innerHTML = "";
+  for (var i = 0; i < highScore.length; i++) {
+    let newListItem = document.createElement("li");
+    newListItem.textContent = highScore[i].initials + ":" + highScore[i].score;
+    scoresList.appendChild(newListItem);
+  }
+};
 // Subfunction compares objects from array and compares the values
 function scoreCompare(a, b) {
   if (a.score > b.score) {
@@ -147,7 +166,6 @@ function scoreCompare(a, b) {
   return 0;
 }
 
-// This function stores the outcome of the quiz and notifies the user of their score
 let quizComplete = function () {
   // The timer stops
   clearInterval(interval);
@@ -157,14 +175,29 @@ let quizComplete = function () {
   activeSection("results");
 };
 
-// Funtion for when the answer is clicked
+// Function shows "incorrect/correct" text for 2 seconds after answer is chosen
+const answerResultFlash = function () {
+  answerResult.style.display = "block";
+  setTimeout(function () {
+    answerResult.style.display = "none";
+  }, 2000);
+};
+// When an answer is clicked, then the next question is displayed
 let answerClick = function () {
+  currentQuestion++;
   // If the users answer does not match the correct answer, then 10 seconds is subtracted from the timer
   if (this.answer !== this.index) {
     count -= 10;
+    if (count < 1) {
+      count = 0;
+    }
     setTimerValue(count);
+    answerResult.innerHTML = "Incorrect";
+  } else {
+    answerResult.innerHTML = "Correct";
   }
-  // total num of questions is higher than the current question index, then it will display the next question; otherwise the quiz is complete
+  answerResultFlash();
+  // if total num of questions is higher than the current question index, then it will display the next question; otherwise the quiz is complete
   if (questionCount >= currentQuestion) {
     populateQuiz(currentQuestion);
   } else {
@@ -172,13 +205,20 @@ let answerClick = function () {
   }
   return;
 };
-// `.push` adds it to the end of the highscore array
+// `.push` adds it to the end of the highscore array; alert promptt displays input criteria
 const initialsSubmit = function () {
+  if (initialsInput.value.length > 4 || initialsInput.value.length < 2) {
+    alert("Please enter your initials. (2-4 Characters, Alpha Characters Only");
+    return;
+  }
+
   highScore.push({ initials: initialsInput.value, score: count });
-  // Sorts the scores using criteria from scoreCompare function
+  // `.push` adds new scores/initials to the end of the highScore array
   highScore.sort(scoreCompare);
   // localstorage highscore is set to a stringified highscore JSON so we have access to the data
   localStorage.setItem("highScore", JSON.stringify(highScore));
+  populateHighScoreList();
+
   // The high scores page is displayed and visible and the timer is reset
   activeSection("scores");
   count = 75;
@@ -188,7 +228,6 @@ const initialsSubmit = function () {
 initialsSubmitBtn.addEventListener("click", initialsSubmit);
 // This function takes the current page and goes to the next one
 function populateQuiz(quizIndex) {
-  currentQuestion++;
   document.getElementById("quizQuestion").innerHTML =
     questionObj[quizIndex]["question"];
   let button;
@@ -210,6 +249,7 @@ document.getElementById("backBtn").addEventListener("click", function () {
   activeSection("homepage");
 });
 populateQuiz(currentQuestion);
+populateHighScoreList();
 // Restarts the quiz and displays the homepage because the current question value is set to 0
 function restart() {
   populateQuiz(currentQuestion[0]);
@@ -220,37 +260,23 @@ highScoreBtn.addEventListener("click", function () {
   activeSection("scoresPage");
 });
 
-// Creates a list of High scores from highest to lowest~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// This function holds the  Initials input and score values
 function displayHighScores() {
   scoresPage(value);
   scoresList(value);
 }
-// Create list items for each highscore ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-for (var i = 0; i < highScore.length; i++) {
-  let newListItem = document.createElement("li");
-  newListItem.textContent = highScore[i];
-  scoresList.appendChild(newListItem);
-}
 
 // On click event for scoresPage that clears the highScoresList
 clearBtn.addEventListener("click", function () {
-  clearInterval("results");
-  clearInterval("scoresList");
-  console.log("results cleared");
+  scoresList.innerHTML = "";
+  localStorage.removeItem("highScore");
+  highScore = [];
 });
 
 /* TO DO:
-  - Clear Highscores (needs to reset highScores object and clear the values from local storage)
-  - Visualize highscores.
-  - validate initials
   - prompt corerct answer text
-  - Add comments
   - format CSS
   - clean up JS
   - clean up HTML
-
-  Next Steps:
-    Work on the visualization of the highScores array. To do this, the goal is to iterate through the array, and utilizing a list, visualize it on the score page. After that, look at othert items in the TODO list. 
-
 
 */
