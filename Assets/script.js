@@ -109,7 +109,7 @@ const hideSections = function () {
   results.style.display = "none";
   scores.style.display = "none";
 };
-// Hides inactive sections and only shows current page
+// Dsiplays active sections by id's
 function activeSection(section) {
   hideSections();
   if (section === "homepage") {
@@ -125,7 +125,7 @@ function activeSection(section) {
     scoresPage.style.display = "block";
   }
 }
-// On click event that sets section to visible and shows question 1
+// On click event that starts the quiz and displays question 1
 quizStart.addEventListener("click", function () {
   currentQuestion = 1;
   activeSection("quiz");
@@ -141,7 +141,7 @@ let highScore;
 // If localStorage is not undefined, sets highscore to the JSON parse of the string stored in local storage
 if (localStorage.getItem("highScore") != undefined) {
   highScore = JSON.parse(localStorage.getItem("highScore"));
-  //  Otherwise it sets highscore to an empty array; parse` converts the string into an object
+  //  Otherwise it sets highscore to an empty array; `parse` converts the string into an object
 } else {
   highScore = [];
 }
@@ -186,7 +186,7 @@ const answerResultFlash = function () {
 // When an answer is clicked, then the next question is displayed
 let answerClick = function () {
   currentQuestion++;
-  // If the users answer does not match the correct answer, then 10 seconds is subtracted from the timer
+  // If the users answer does not match the correct answer, then 10 seconds is subtracted from the timer, and "Incorrect" text is shown under the question
   if (this.answer !== this.index) {
     count -= 10;
     if (count < 1) {
@@ -206,7 +206,7 @@ let answerClick = function () {
   }
   return;
 };
-// `.push` adds it to the end of the highscore array; alert promptt displays input criteria
+// `.push` adds it to the end of the highscore array; alert prompt displays input criteria
 const initialsSubmit = function () {
   if (initialsInput.value.length > 4 || initialsInput.value.length < 2) {
     alert("Please enter your initials. (2-4 Characters, Alpha Characters Only");
@@ -220,12 +220,12 @@ const initialsSubmit = function () {
   localStorage.setItem("highScore", JSON.stringify(highScore));
   populateHighScoreList();
 
-  // The high scores page is displayed and visible and the timer is reset
+  // The high scores page is displayed and visible; the timer is reset
   activeSection("scores");
   count = 75;
   setTimerValue(count);
 };
-// On click event for when the user inputs their initials on the resultsPage
+// On click event for when the user submits their initials
 initialsSubmitBtn.addEventListener("click", initialsSubmit);
 // This function takes the current page and goes to the next one
 function populateQuiz(quizIndex) {
@@ -256,18 +256,18 @@ function restart() {
   populateQuiz(currentQuestion[0]);
 }
 
-// On click event for "View Highscore" in nav that returns the Highscores page
+// On click event for "View Highscore" in nav that returns the scoresPage
 highScoreBtn.addEventListener("click", function () {
   activeSection("scoresPage");
 });
 
-// This function holds the  Initials input and score values
+// This function holds the Initials input and score values
 function displayHighScores() {
   scoresPage(value);
   scoresList(value);
 }
 
-// On click event for scoresPage that clears the highScoresList
+// On click event for scoresPage that clears the highScoresList by emptying the highScore array
 clearBtn.addEventListener("click", function () {
   scoresList.innerHTML = "";
   localStorage.removeItem("highScore");
