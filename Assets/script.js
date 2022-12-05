@@ -151,7 +151,8 @@ const populateHighScoreList = function () {
   scoresList.innerHTML = "";
   for (var i = 0; i < highScore.length; i++) {
     let newListItem = document.createElement("li");
-    newListItem.textContent = highScore[i].initials + ":" + highScore[i].score;
+    newListItem.textContent =
+      highScore[i].initials + " - " + highScore[i].score;
     scoresList.appendChild(newListItem);
   }
 };
@@ -272,11 +273,3 @@ clearBtn.addEventListener("click", function () {
   localStorage.removeItem("highScore");
   highScore = [];
 });
-
-/* TO DO:
-  - prompt corerct answer text
-  - format CSS
-  - clean up JS
-  - clean up HTML
-
-*/

@@ -7,45 +7,50 @@
 
 :root {
   --purple: #562e81;
-  --size: 36px;
-  --highlight: #cfa7fba3;
-  --btn-hover: 50%;
-}
-#homepage {
-  text-align: center;
-}
-.quizContainter {
-  width: 70%;
+  --highlight: #ddc2faa3;
+  --size: 18px;
 }
 
+/* in nav bar  */
 #highScoreBtn {
   color: var(--purple);
   border: none;
-  font-size: 18px;
+  font-size: var(--size);
   background-color: transparent;
 }
 nav #interval {
   display: inline;
   float: right;
-  font-size: 18px;
+  font-size: var(--size);
   padding: 5px;
+}
+/* end of nav bar  */
+
+.quizContainter {
+  width: 75%;
+}
+
+#homepage {
+  text-align: center;
 }
 
 h1,
 h2 {
-  font-size: var(--size);
+  font-size: 34px;
   padding: 5px 5px 15px 5px;
+  margin-top: 40px;
 }
 
 p {
-  font-size: 18px;
+  font-size: var(--size);
   margin: 5px;
 }
 
+/* buttons  */
 button {
   background-color: var(--purple);
   color: white;
-  font-size: 20px;
+  font-size: var(--size);
   border-radius: 10px;
   padding: 5px;
   opacity: 100%;
@@ -53,15 +58,21 @@ button {
 button:hover {
   opacity: 75%;
 }
-
+#buttonContainer {
+  padding: 20px;
+}
 #startBtn {
   margin: 15px;
 }
-
 .optionBtn {
   text-align: left;
   margin: 2px;
 }
+#backBtn,
+#clearBtn {
+  margin: 5px;
+}
+/* end of buttons  */
 
 #quiz,
 #resultsPage,
@@ -76,36 +87,27 @@ button:hover {
   padding: 5px;
 }
 
-input[type="text"]:focus {
-  border: 5px solid lightblue;
-}
-
 #scoresList {
   width: fit-content;
   font-weight: bold;
-  margin: 5px;
-  padding-left: 650px;
+  margin-left: 20px;
+  width: 75%;
 }
 
 li {
   background-color: var(--highlight);
   margin: 5px;
-}
 
-#buttonContainer {
-  padding: 20px;
-}
-#backBtn,
-#clearBtn {
-  margin: 5px;
+  font-size: var(--size);
+  font-weight: lighter;
+  padding-left: 5px;
 }
 
 #result {
   color: gray;
   font-style: italic;
   display: none;
-  /* width: 100%; */
-  border-top: 5px solid lightblue;
+  border-top: 3px solid gray;
   margin-top: 10px;
   padding-top: 10px;
 }
